@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +14,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store(Request $request) {
+    public function register(Request $request) {
         $request->validate([
             'name' => ['required'],
             'email' => ['required', 'unique:users,email'],
@@ -33,12 +34,19 @@ class RegisterController extends Controller
         if($is_user_created) {
             $is_file_uploaded = $file->move(public_path('uploads'), $file_name);
             if($is_file_uploaded) {
-                return back()->with('success', 'Hamari Sabzi sai ho gai');
+                $is_admin_created = Admin::create([
+                    'user_id' => $is_user_created->id
+                ]);
+                if($is_admin_created) {
+                    return back()->with('success', 'Magic has been spelled');
+                } else {
+                    return back()->with('failed', 'Magic has failed to spell');
+                }   
             } else {
-                return back()->with('failed', 'Hamari File Shareef Kharab ho gai');
+                return back()->with('failed', 'File has failed to upload');
             }
         } else {
-            return back()->with('failed', 'Hamari Sabzi Kharab ho gai');
+            return back()->with('failed', 'User has failed to add');
         }
     }
 }

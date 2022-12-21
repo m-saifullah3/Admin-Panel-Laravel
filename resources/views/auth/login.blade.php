@@ -13,20 +13,25 @@
     <div class="card">
         <div class="card-body">
             <div class="m-sm-4">
-                <form>
+                @include('partials.alerts')
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input class="form-control form-control-lg" type="email" name="email"
-                            placeholder="Enter your email" />
+                        <label class="form-label" for="email">Email</label>
+                        <input class="form-control form-control-lg @error('email') is-invalid @enderror" type="email" name="email" id="email" placeholder="Enter your email" value="{{ old('email') }}">
+                        @error('email')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input class="form-control form-control-lg" type="password" name="password"
-                            placeholder="Enter your password" />
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control form-control-lg @error('password') is-invalid @enderror" type="password" name="password" id="password" placeholder="Enter password" />
+                        @error('password')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="text-center mt-3">
-                        <a href="index.html" class="btn btn-lg btn-primary">Sign in</a>
-                        <!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
+                        <button type="submit" class="btn btn-lg btn-primary" name="submit">Log in</button>
                     </div>
 
                     <div>
