@@ -13,8 +13,20 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-profile.html">
+                <a class="sidebar-link" href="{{ route('admin.students') }}">
                     <i class="align-middle" data-feather="users"></i> <span class="align-middle">Students</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('admin.courses') }}">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Courses</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('admin.registrations') }}">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Registrations</span>
                 </a>
             </li>
 

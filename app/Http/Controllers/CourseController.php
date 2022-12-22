@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -13,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.courses.index', ['courses' => Course::all()]);
     }
 
     /**
@@ -23,7 +24,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.courses.create');
     }
 
     /**
@@ -34,7 +35,17 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'unique:courses,name']
+        ]);
+        $is_course_created = Course::create([
+            'name' => $request->name
+        ]);
+        if($is_course_created) {
+            return back()->with('success', 'Magic has been spelled');
+        } else {
+            return back()->with('failed', 'Magic has failed to spell');
+        }
     }
 
     /**
@@ -54,9 +65,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Course $course)
     {
-        //
+        return view('admin.courses.edit', ['course' => $course]);
     }
 
     /**
@@ -66,9 +77,20 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Course $course)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'unique:courses,name,' . $course->id . ',id']
+        ]);
+        $is_course_updated = Course::find($course->id)->update([
+            'name' => $request->name
+        ]);
+
+        if($is_course_updated) {
+            return back()->with('success', 'Magic has been spelled');
+        } else {
+            return back()->with('failed', 'Magic has failed to spell');
+        }
     }
 
     /**
@@ -77,8 +99,14 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Course $course)
     {
-        //
+        $is_course_deleted = Course::find($course->id)->delete();
+
+        if($is_course_deleted) {
+            return back()->with('success', 'Magic has been spelled');
+        } else {
+            return back()->with('failed', 'Magic has failed to spell');
+        }
     }
 }

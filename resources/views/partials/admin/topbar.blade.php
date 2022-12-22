@@ -3,7 +3,9 @@
         <i class="hamburger align-self-center"></i>
     </a>
 
-    {{ $user = Auth::user() }}
+    @php
+        $user = Auth::user()
+    @endphp
 
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">

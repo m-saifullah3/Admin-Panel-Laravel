@@ -1,17 +1,39 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Admin | Dashboard')
+@section('title', 'Admin | Edit Course')
 
 @section('contents')
-    <h1 class="h3 mb-3">Dashboard</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="h3 mb-3">Edit Course</h1>
+        </div>
+        <div class="col-6 text-end">
+            <a href="{{ route('admin.courses') }}" class="btn btn-outline-primary">Back</a>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Some Content</h5>
-                </div>
                 <div class="card-body">
+
+                    @include('partials.alerts')
+
+                    <form action="{{ route('admin.course.edit', $course) }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror " id="name" name="name" value="{{ old('name') ? old('name') : $course->name }}" placeholder="Enter the name">
+
+                            @error('name')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="submit" value="Submit" class="btn btn-primary" name="submit">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

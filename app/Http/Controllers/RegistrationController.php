@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Registration;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
@@ -13,7 +16,8 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        //
+        $registrations = Registration::all();
+        return view('admin.registration.index', ['registrations' => $registrations]);
     }
 
     /**
@@ -23,7 +27,9 @@ class RegistrationController extends Controller
      */
     public function create()
     {
-        //
+        $students = Student::with('user')->get();
+        $courses = Course::all();
+        return view('admin.registration.create', ['students' => $students, 'courses' => $courses]);
     }
 
     /**
@@ -34,7 +40,12 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'student' => ['required'],
+            'course' => ['required'],
+        ]);
+
+        return dd($request->all());
     }
 
     /**
