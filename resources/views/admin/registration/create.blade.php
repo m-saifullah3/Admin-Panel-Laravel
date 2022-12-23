@@ -26,7 +26,7 @@
                             <select class="form-select @error('student') is-invalid @enderror" name="student" id="student">
                                 <option value="" selected hidden disabled>Please select the student</option>
                                 @foreach ($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->user->name }}</option>
+                                    <option value="{{ $student->id }}" {{ $student->id == old('student') ?  "selected" : "" }}>{{ $student->user->name }}</option>
                                 @endforeach
                             </select>
 
@@ -40,7 +40,7 @@
                             <select class="form-select @error('course') is-invalid @enderror" name="course" id="course">
                                 <option value="" selected hidden disabled>Please select the course</option>
                                 @foreach ($courses as $course)
-                                    <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                    <option value="{{ $course->id }}" {{ $course->id == old('course') ?  "selected" : "" }}>{{ $course->name }}</option>
                                 @endforeach
                             </select>
 

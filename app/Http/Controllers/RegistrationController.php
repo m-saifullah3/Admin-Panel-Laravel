@@ -16,7 +16,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        $registrations = Registration::all();
+        $registrations = Registration::with('student', 'course')->get();
         return view('admin.registration.index', ['registrations' => $registrations]);
     }
 
@@ -41,11 +41,33 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'student' => ['required'],
+            'student' => ['required', 'unique:registrations,student_id,' . $request->student . ',id,course_id,'.$request->course],
             'course' => ['required'],
+        ],[
+            'student.unique' => 'This student is already registered with the selected course'
         ]);
 
-        return dd($request->all());
+        // $is_already_registered = Registration::where([
+        //     ['course_id', '=', $request->course],
+        //     ['student_id', '=', $request->student]
+        // ])->get();
+
+        // if (count($is_already_registered) == 0) {
+            $data = [
+                'student_id' => $request->student,
+                'course_id' => $request->course
+            ];
+
+            $is_registration_created = Registration::create($data);
+
+            if ($is_registration_created) {
+                return back()->with('success', 'Magic has been spelled');
+            } else {
+                return back()->with('failed', 'Magic has failed to spell');
+            }
+        // } else {
+        //     return back()->with('failed', 'Aleady Registered');
+        // }
     }
 
     /**
@@ -65,9 +87,11 @@ class RegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Registration $registration)
     {
-        //
+        $students = Student::with('user')->get();
+        $courses = Course::all();
+        return view('admin.registration.edit', ['students' => $students, 'courses' => $courses, 'registration' => $registration]);
     }
 
     /**
@@ -77,9 +101,37 @@ class RegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Registration $registration)
     {
-        //
+        $request->validate([
+            'student' => ['required', 'unique:registrations,student_id,' . $registration->id . ',id,course_id,' . $request->course],
+            'course' => ['required'],
+        ],[
+            'student.unique' => 'This student is already registered with the selected course'
+        ]);
+
+        // $is_already_registered = Registration::where([
+        //     ['course_id', '=', $request->course],
+        //     ['student_id', '=', $request->student],
+        //     ['id', '!=', $registration->id]
+        // ])->get();
+
+        // if (count($is_already_registered) == 0) {
+            $data = [
+                'student_id' => $request->student,
+                'course_id' => $request->course
+            ];
+
+            $is_registration_updated = Registration::find($registration->id)->update($data);
+
+            if ($is_registration_updated) {
+                return back()->with('success', 'Magic has been spelled');
+            } else {
+                return back()->with('failed', 'Magic has failed to spell');
+            }
+        // } else {
+        //     return back()->with('failed', 'Aleady Registered');
+        // }
     }
 
     /**
@@ -88,8 +140,14 @@ class RegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Registration $registration)
     {
-        //
+        $is_registration_deleted = Registration::find($registration->id)->delete();
+
+        if ($is_registration_deleted) {
+            return back()->with('success', 'Magic has been spelled');
+        } else {
+            return back()->with('failed', 'Magic has failed to spell');
+        }
     }
 }

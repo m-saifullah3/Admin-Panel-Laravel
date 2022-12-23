@@ -26,7 +26,8 @@
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>
-                                    <th>Name</th>
+                                    <th>Student Name</th>
+                                    <th>Course Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -34,7 +35,8 @@
                                 @foreach ($registrations as $registration)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $registration->name }}</td>
+                                        <td>{{ $registration->student->user->name }}</td>
+                                        <td>{{ $registration->course->name }}</td>
                                         <td>
                                             <a href="{{ route('admin.registration.edit', $registration) }}"
                                                 class="btn btn-primary">Edit</a>
