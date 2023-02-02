@@ -21,11 +21,11 @@
 
 <body>
     <div class="wrapper">
-        
+
         @include('partials.admin.sidebar')
 
         <div class="main">
-            
+
             @include('partials.admin.topbar')
 
             <main class="content">
@@ -36,8 +36,6 @@
                 </div>
             </main>
 
-            @include('partials.admin.footer')
-            
         </div>
     </div>
 

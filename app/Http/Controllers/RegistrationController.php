@@ -61,9 +61,9 @@ class RegistrationController extends Controller
             $is_registration_created = Registration::create($data);
 
             if ($is_registration_created) {
-                return back()->with('success', 'Magic has been spelled');
+                return back()->with('success', 'Registration has been created');
             } else {
-                return back()->with('failed', 'Magic has failed to spell');
+                return back()->with('failed', 'Registration has failed to create');
             }
         // } else {
         //     return back()->with('failed', 'Aleady Registered');
@@ -125,9 +125,9 @@ class RegistrationController extends Controller
             $is_registration_updated = Registration::find($registration->id)->update($data);
 
             if ($is_registration_updated) {
-                return back()->with('success', 'Magic has been spelled');
+                return back()->with('success', 'Registration has been updated');
             } else {
-                return back()->with('failed', 'Magic has failed to spell');
+                return back()->with('failed', 'Registration has failed to update');
             }
         // } else {
         //     return back()->with('failed', 'Aleady Registered');
@@ -145,9 +145,9 @@ class RegistrationController extends Controller
         $is_registration_deleted = Registration::find($registration->id)->delete();
 
         if ($is_registration_deleted) {
-            return back()->with('success', 'Magic has been spelled');
+            return back()->with('success', 'Registration has been deleted');
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Registration has failed to delete');
         }
     }
 }

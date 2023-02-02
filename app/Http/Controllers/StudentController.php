@@ -52,7 +52,6 @@ class StudentController extends Controller
             'password' => Hash::make('12345'),
             'profile_picture' => $file_name,
             'user_type' => 'Student'
-
         ]);
 
         if ($is_user_created) {
@@ -62,15 +61,15 @@ class StudentController extends Controller
                     'user_id' => $is_user_created->id
                 ]);
                 if ($is_student_created) {
-                    return back()->with('success', 'Magic has been spelled');
+                    return back()->with('success', 'Student has been created');
                 } else {
-                    return back()->with('failed', 'Magic has failed to spell');
+                    return back()->with('failed', 'Student has failed to create');
                 }
             } else {
-                return back()->with('failed', 'File has failed to upload');
+                return back()->with('failed', 'Student has failed to create');
             }
         } else {
-            return back()->with('failed', 'User has failed to add');
+            return back()->with('failed', 'Student has failed to create');
         }
     }
 
@@ -133,15 +132,15 @@ class StudentController extends Controller
                 File::delete(public_path('uploads/' . $old_file_name));
                 $is_file_uploaded = $file->move(public_path('uploads'), $file_name);
                 if ($is_file_uploaded) {
-                    return back()->with('success', 'Magic has been spelled');
+                    return back()->with('success', 'Student has been updated');
                 } else {
-                    return back()->with('failed', 'Magic has failed to spell');
+                    return back()->with('failed', 'Student has failed to update');
                 }
             } else {
-                return back()->with('success', 'Magic has been spelled');
+                return back()->with('success', 'Student has been updated');
             }
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Student has failed to update');
         }
     }
 
@@ -153,17 +152,16 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        $is_file_deleted = File::delete(public_path('uploads/' . $student->user->profile_picture));
-        
-        if ($is_file_deleted) {
-            $is_user_deleted = User::find($student->user_id)->delete();
-            if ($is_user_deleted) {
-                return back()->with('success', 'Magic has been spelled');
-            } else {
-                return back()->with('failed', 'Magic has failed to spell');
-            }
+        $path = public_path('uploads/' . $student->user->profile_picture);
+        if (File::exists($path)) {
+            File::delete($path);
+        };
+
+        $is_user_deleted = User::find($student->user_id)->delete();
+        if ($is_user_deleted) {
+            return back()->with('success', 'Student has been deleted');
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Student has failed to delete');
         }
     }
 }

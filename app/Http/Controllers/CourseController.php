@@ -42,9 +42,9 @@ class CourseController extends Controller
             'name' => $request->name
         ]);
         if($is_course_created) {
-            return back()->with('success', 'Magic has been spelled');
+            return back()->with('success', 'Course has been created');
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Course has failed to create');
         }
     }
 
@@ -87,9 +87,9 @@ class CourseController extends Controller
         ]);
 
         if($is_course_updated) {
-            return back()->with('success', 'Magic has been spelled');
+            return back()->with('success', 'Course has been updated');
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Course has failed to update');
         }
     }
 
@@ -104,9 +104,9 @@ class CourseController extends Controller
         $is_course_deleted = Course::find($course->id)->delete();
 
         if($is_course_deleted) {
-            return back()->with('success', 'Magic has been spelled');
+            return back()->with('success', 'Course has been deleted');
         } else {
-            return back()->with('failed', 'Magic has failed to spell');
+            return back()->with('failed', 'Course has failed to delete');
         }
     }
 }

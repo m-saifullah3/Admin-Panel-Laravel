@@ -3,12 +3,9 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
-use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\StudentController;
-use App\Http\Controllers\StudentDashboardController;
-use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,15 +23,6 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/', 'view')->name('home');
     Route::get('/login', 'view')->name('login');
     Route::post('/login', 'login');
-});
-
-Route::controller(LogoutController::class)->group(function () {
-    Route::get('/logout', 'logout')->name('logout');
-});
-
-Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'view')->name('register');
-    Route::post('/register', 'register');
 });
 
 Route::controller(AdminDashboardController::class)->group(function () {
@@ -68,6 +56,6 @@ Route::controller(RegistrationController::class)->group(function () {
     Route::get('/admin/registration/{registration}/destroy', 'destroy')->name('admin.registration.destroy');
 });
 
-Route::controller(StudentDashboardController::class)->group(function () {
-    Route::get('/student/dashboard', 'index')->name('student.dashbaord');
+Route::controller(LogoutController::class)->group(function () {
+    Route::get('/logout', 'logout')->name('logout');
 });

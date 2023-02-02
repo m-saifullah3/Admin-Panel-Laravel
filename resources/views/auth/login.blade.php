@@ -33,10 +33,6 @@
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-lg btn-primary" name="submit">Log in</button>
                     </div>
-
-                    <div>
-                        Want to register? <a href="{{ route('register') }}">Register</a>
-                    </div>
                 </form>
             </div>
         </div>
